@@ -35,7 +35,8 @@
 2. 在main.js中引入fastClick -> import falseClick from "fastclick"
 3. 在main.js -> 使用fastClick -> falseClick.attach(document.body) 
 
-
+# 添加项目需要用的iconfont
+1. 去阿里矢量图库->图标管理->我的项目->新建项目
 ## Build Setup
 
 ``` bash
