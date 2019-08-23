@@ -84,6 +84,26 @@
 
 1. 在 build 文件夹下有个 webpack.base.conf.js 我们可以创建自定义类似@符号的别名,添加常用的资源
 
+# 关于 swiper 的使用
+
+1. vue-awesome-swiper
+2. npm install vue-awesome-swiper --save
+
+# 关于 vue 中 css 穿透 scope 的操作
+
+1. 如 .wraper>>>.swiper-pagination-bullet-active 就是穿透 scope
+
+```js
+<style scoped>
+  外层 >>> 第三方组件 {
+      样式
+  }
+
+/deep/  第三方组件 {
+      样式
+  }
+```
+
 ```bash
 # install dependencies
 npm install
