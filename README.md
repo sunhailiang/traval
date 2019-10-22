@@ -104,6 +104,33 @@
   }
 ```
 
+# 关于axios得应用
+- 使用之前肯定要安装
+   - npm i axios  --save
+   - 引入axios: import axios from 'axios'
+   - 通常在mounted中去请求数据啊
+- **注意**：我们在页面中尽量少的向服务端发起请求，也是提高网站性能的一种手段
+   - 所以请求数据可以在尽量最外层发起数据请求，然后将数据传递给子组件
+
+# 关于gitignore的应用
+- 可以把不需要打包的文件或者文件夹写在该文件中
+
+# 关于static文件夹
+- 可以将本地模拟数据的json文件放在该文件夹中
+
+# 请求代理-config/index的proxyTable使用
+- proxyTable:{}
+- 将具体路径如:/static/mock/index.json改成/api/index.json
+- 改完配置，记得重启哦
+```js
+   '/api': { // 替换地址
+        target: 'http://localhost:8081', //转发地址 
+        pathRewrite: {
+          '^/api': '/static/mock' // 转换路径
+        }
+      }
+```
+
 ```bash
 # install dependencies
 npm install

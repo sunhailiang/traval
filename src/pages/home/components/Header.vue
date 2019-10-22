@@ -7,7 +7,7 @@
       <span class="iconfont icon-search">&#xe6a2;</span>
       输入城市/景点/游玩主题
     </div>
-    <div class="header-right">城市
+    <div class="header-right">{{city}}
       <span class="iconfont  icon-arrow">&#xe615;</span>
     </div>
   </div>
@@ -15,6 +15,9 @@
 <script>
 export default {
   name: 'Header',
+  props: {
+    city: String
+  },
   data () {
     return {
       msg: 'Header'

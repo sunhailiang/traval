@@ -21,24 +21,11 @@
 <script>
 export default {
   name: 'HomeWeekend',
+  props: {
+    weekendList: Array
+  },
   data () {
     return {
-      weekendList: [{
-        id: '01',
-        imgUrl: 'http://mp-piao-admincp.qunarzz.com/mp_piao_admin_mp_piao_admin/admin/20199/387c5e767cccc7a3172ed7ea15b50727.png',
-        title: '大连圣亚海洋世界',
-        desc: '浪漫大连首站，浪漫得海洋主题乐园'
-      }, {
-        id: '02',
-        imgUrl: 'http://mp-piao-admincp.qunarzz.com/mp_piao_admin_mp_piao_admin/admin/20199/387c5e767cccc7a3172ed7ea15b50727.png',
-        title: '大连圣亚海洋世界',
-        desc: '浪漫大连首站，浪漫得海洋主题乐园'
-      }, {
-        id: '03',
-        imgUrl: 'http://mp-piao-admincp.qunarzz.com/mp_piao_admin_mp_piao_admin/admin/20199/387c5e767cccc7a3172ed7ea15b50727.png',
-        title: '大连圣亚海洋世界',
-        desc: '浪漫大连首站，浪漫得海洋主题乐园'
-      }]
     }
   }
 

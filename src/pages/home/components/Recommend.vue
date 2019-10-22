@@ -21,25 +21,13 @@
 </template>
 <script>
 export default {
-  name: 'HomeRecomment',
+  name: 'HomeRecommend',
+  props: {
+    recommendList: Array
+  },
   data () {
     return {
-      recommendList: [{
-        id: '01',
-        imgUrl: 'https://imgs.qunarzz.com/p/p70/1809/e7/4941057a6aae702.jpg_216x190_1d9c854f.jpg',
-        title: '大连圣亚海洋世界',
-        desc: '浪漫大连首站，浪漫得海洋主题乐园'
-      }, {
-        id: '02',
-        imgUrl: 'https://imgs.qunarzz.com/p/p70/1809/e7/4941057a6aae702.jpg_216x190_1d9c854f.jpg',
-        title: '大连圣亚海洋世界',
-        desc: '浪漫大连首站，浪漫得海洋主题乐园'
-      }, {
-        id: '03',
-        imgUrl: 'https://imgs.qunarzz.com/p/p70/1809/e7/4941057a6aae702.jpg_216x190_1d9c854f.jpg',
-        title: '大连圣亚海洋世界',
-        desc: '浪漫大连首站，浪漫得海洋主题乐园'
-      }]
+
     }
   }
 
