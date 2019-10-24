@@ -131,6 +131,20 @@
       }
 ```
 
+# 关于<route-link>的使用
+1. 可以理解成html中的标签
+2. to：跳转的链接
+```js
+ <router-link to="/city">
+       
+ </router-link>
+```
+
+# 关于滚动插件better-scroll
+- 第一步：install i better-scroll -s
+- 第二步：import BScroll from 'better-scroll'
+- 第三步：mounted () { this.scroll = new BScroll(this.$refs.wrapper)}
+
 ```bash
 # install dependencies
 npm install
