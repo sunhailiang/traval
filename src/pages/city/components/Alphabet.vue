@@ -1,13 +1,19 @@
 <template>
   <div class="list">
-    <div class="item">A</div>
-    <div class="item">B</div>
-    <div class="item">C</div>
+    <div class="item"
+         v-for="(item,key) of cities"
+         :key="key">{{key}}</div>
   </div>
 </template>
 <script>
 export default {
-  name: 'Alphabet'
+  name: 'Alphabet',
+  props: {
+    cities: Array
+  },
+  mounted () {
+
+  }
 }
 </script>
 <style lang="stylus" scoped>
