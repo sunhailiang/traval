@@ -507,6 +507,19 @@ import { mapState, mapGetters } from 'vuex'
 - activated：只要存活的组件，会触发这个函数，可以在这个函数中重新发起新的请求，拿到新的数据
 
 > home>index.vue
+```js
+
+  mounted () {
+    this.lastCity = this.city // 在返回组件时mounted不会执行，所以lastCity存储得上一个城市
+    this.getHomeInfo()
+  },
+  activated () {
+    if (this.lastCity !== this.city) {
+      this.lastCity = this.city
+      this.getHomeInfo()// 重新请求信息
+    }
+  },
+```
 
 ```bash
 # install dependencies
