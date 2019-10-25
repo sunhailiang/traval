@@ -15,11 +15,12 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'Header',
   computed: {
-    ...mapState(['city'])
+    ...mapState(['city']),
+    ...mapGetters(['double'])
   },
   data () {
     return {

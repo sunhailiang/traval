@@ -8,5 +8,10 @@ Vue.use(Vuex) // 使用vuex
 export default new Vuex.Store({ // 新建仓库
   state,
   actions,
-  mutations
+  mutations,
+  getters: {
+    double (state) {
+      return state.city + state.city
+    }
+  }
 })

@@ -458,11 +458,56 @@ import { mapState, mapMutations } from 'vuex'
 - 通过state获取数据进行相关的计算
 - 然后在页面使用mapGetter进行数据映射
 
+> store>index.js
 
+```js
+ export default new Vuex.Store({ // 新建仓库
+  state,
+  actions,
+  mutations,
+  getters: { // 使用getter，相当于计算属性
+    double (state) {
+      return state.city + state.city
+    }
+  }
+})
+```
+> home>Header.vue
 
+```js
+import { mapState, mapGetters } from 'vuex'
+  computed: {
+    ...mapState(['city']), // 此时只是映射一个
+    ...mapGetters(['double'])// 而getter中有一个double，如果你此时把页面的city换成double会有俩城市名称
+  },
+```
 
+## vuex 中Moudle
+- 解决问题： 如果项目非常庞大，store会变成的非常臃肿
+- 我们可以通过Moudle进行按模块代码拆分
+- 详情看官方文档
 
-# vuex 
+# keep-alive
+- 解决问题：返回组件，组件重新渲染加载了
+- 良好状态：返回组件，不重复渲染
+- keep-alive标签，将组件数据缓存到内存中，不会重复请求
+> App.vue
+
+```html
+  <div id="app">
+    <!-- 在组件外层包一层 -->
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
+  </div>
+```
+
+# activAted得使用
+- 解决的问题：每次选择城市我的页面数据就应该切换，但是，因为keep-alive缓存的数据，切换城市并没有发请求，所以有坑
+- activated：只要存活的组件，会触发这个函数，可以在这个函数中重新发起新的请求，拿到新的数据
+
+> home>index.vue
+
 ```bash
 # install dependencies
 npm install
