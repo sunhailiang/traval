@@ -257,6 +257,34 @@
     }
 ```
 
+# 关于城市搜索的功能
+- 数据双向绑定输入的关键词
+- 监听关键词，匹配cities中的数据
+
+```js
+  watch: {
+    keyWord () {
+      if (this.timer) {
+        clearTimeout(this.timer)
+      }
+      this.timer = setTimeout(() => {
+        const result = []
+        for (let i in this.cities) {
+          this.cities[i].forEach(v => {
+            if (v.spell.indexOf(this.keyWord) > -1 || v.name.indexOf(this.keyWord) > -1 ) {
+              result.push(v)
+            }
+          })
+        }
+        this.list = result
+      }, 100)
+    }
+  }
+```
+
+# 城市搜索页面无法滚动的解决方法
+- 借助beter-scroll提供的api
+
 
 ```bash
 # install dependencies
