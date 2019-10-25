@@ -284,7 +284,18 @@
 
 # 城市搜索页面无法滚动的解决方法
 - 借助beter-scroll提供的api
+```html
+    <div class="search-content"
+         ref="search" 
+         v-show="keyWord">
+```
+```js
+import BScroll from 'better-scroll'
 
+mounted () {
+   this.scroll = new BScroll(this.$refs.search)
+},
+```
 
 ```bash
 # install dependencies
