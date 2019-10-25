@@ -12,7 +12,8 @@
       <ul>
         <li class="serach-item border-bottom"
             v-for="item in list"
-            :key="item.id">{{item.name}}</li>
+            :key="item.id"
+            @click="handleChangeCity(item.name)">{{item.name}}</li>
         <li class="serach-item border-bottom nodata"
             v-show="hasNoDate">没有匹配数据</li>
       </ul>
@@ -21,6 +22,7 @@
 </template>
 <script>
 import BScroll from 'better-scroll'
+import { mapMutations } from 'vuex'
 export default {
   name: 'Search',
   props: {
@@ -37,6 +39,13 @@ export default {
     hasNoDate () {
       return !this.list.length
     }
+  },
+  methods: {
+    handleChangeCity (city) { // 选择城市
+      this.changeCity(city)
+      this.$router.push({ path: '/' })
+    },
+    ...mapMutations(['changeCity'])
   },
   mounted () {
     this.scroll = new BScroll(this.$refs.search)

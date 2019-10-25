@@ -297,6 +297,172 @@ mounted () {
 },
 ```
 
+# 关于vuex的应用
+- vue数据状态管理器
+- 用于统一管理组件共享数据
+- 使用步骤
+   - cnpm i vuex --save
+- 再src目录下创建store文件夹
+- store文件夹下创建index.js
+> index.js
+```js
+import Vue from 'vue'
+import Vuex from 'vuex'
+Vue.use(Vuex) // 使用vuex
+export default new Vuex.Store({ // 新建仓库
+  state: { // 存储数据
+    city: '北京'
+  },
+    actions: { // 执行事件
+    changeCity (ctx, city) {
+      ctx.commit('changeCity', city)
+    }
+  },
+  mutations: { // 变更状态
+    changeCity (state, city) {
+      state.city = city
+    }
+  }
+})
+```
+> 应用数据
+- 上一步将store放到vue的根实例中，以至于在此根实例下面所有的组件都能共享 **this.$store.state.公共数据**
+> main.js
+```js
+import store from './store'
+
+new Vue({
+  el: '#app',
+  store, // 当前vue实例中使用store仓库中的数据
+  router,
+  components: { App },
+  template: '<App/>'
+})
+```
+
+> 派发事件改变数据状态Search.vue List.vue
+```js
+    handleHotCityClick (city) { // 选择热门城市
+      this.$store.commit('changeCity', city) // 此处可以用dispatch派发，也可以直接提交事件，改变状态
+      this.$router.push({ path: '/' }) // 路由跳转
+    },
+    handleCityClick (city) { // 选择城市
+      this.$store.commit('changeCity', city)
+      this.$router.push({ path: '/' })
+    }
+```
+##  使用vuex的localStorage本地缓存
+
+- 解决的问题
+   - 选择城市以后，但是刷新页面发现城市数据恢复出初始化数据而不是我们最后选的城市
+> store>index.js
+```js
+ state: { // 存储数据
+    city: localStorage.city || '北京'
+  },
+  actions: { // 执行事件，可以不用，直接commit也行
+    changeCity (ctx, city) {
+      ctx.commit('changeCity', city)
+    }
+  },
+  mutations: { // 变更状态
+    changeCity (state, city) {
+      state.city = city
+      localStorage.city = city // 存到本地缓存中，这样确保刷新后数据还在
+    }
+  }
+```
+## 使用localStore的坑
+- 如果用户关闭了本地存储功能，或者使用浏览器隐身模式，代码会有问题
+- 解决办法
+   - try catch
+> store>index.js
+```js
+var defaultCity = '北京'
+try { // 使用try捕捉可能因为不能促存储存在的异常
+  if (localStorage.city) { 
+    defaultCity = localStorage.city
+  }
+} catch (e) { }
+export default new Vuex.Store({ // 新建仓库
+  state: { // 存储数据
+    city: defaultCity || '北京'
+  },
+  actions: { // 执行事件，可以不用，直接commit也行
+    changeCity (ctx, city) {
+      ctx.commit('changeCity', city)
+    }
+  },
+  mutations: { // 变更状态
+    changeCity (state, city) {
+      state.city = city
+      try { localStorage.city = city } catch (e) { }
+    }
+  }
+})
+
+```
+## vuex 拆分-提高可维护性
+- 将store中index文件拆分为 action,mutations,actions三个文件独立维护
+
+## vuex中 mapState的使用
+- 作用将vuex中我们需要的数据直接映射出来
+- 解决问题-this.$store.state.city每次通过这么一长串去取数据很麻烦，代码不美观
+
+> 使用mapState之前需要先引入
+
+```js
+  // 第一步引入:
+  import { mapState } from 'vuex'
+  // 第二部配合computed影身
+  computed: {
+    ...mapState(['city'])
+  },
+```
+
+```html
+ <div class="button-wrapper">
+   <!-- 通过this.$store.state.city这一串很长 -->
+            <div class="button">{{this.$store.state.city}}</div> 
+  </div>
+```
+> 优化后
+```html
+  <div class="item border-bottom">{{city.name}}</div>
+```
+
+## vuex中mapMutetions的应用 
+- 映射处理函数，减少手动提交事件
+
+> 先引入
+```js
+import { mapState, mapMutations } from 'vuex'
+  methods: {
+    handleHotCityClick (city) { // 选择热门城市
+      // 使用mapMutions之后不需要再手动commit直接匹配即可
+      // this.$store.commit('changeCity',city)
+
+      this.changeCity(city) // 从mapMutations中解析出来
+      this.$router.push({ path: '/' })
+    },
+    handleCityClick (city) { // 选择城市
+      this.changeCity(city)
+      this.$router.push({ path: '/' })
+    },
+    ...mapMutations(['changeCity']) // 直接处理
+  },
+```
+
+## vuex中的mapGetter
+- 相当于vuex中的计算属性
+- 通过state获取数据进行相关的计算
+- 然后在页面使用mapGetter进行数据映射
+
+
+
+
+
+# vuex 
 ```bash
 # install dependencies
 npm install

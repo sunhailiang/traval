@@ -8,17 +8,18 @@
       输入城市/景点/游玩主题
     </div>
     <router-link to="/city">
-      <div class="header-right">{{city}}
+      <div class="header-right">{{this.city}}
         <span class="iconfont  icon-arrow">&#xe615;</span>
       </div>
     </router-link>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'Header',
-  props: {
-    city: String
+  computed: {
+    ...mapState(['city'])
   },
   data () {
     return {
@@ -59,7 +60,9 @@ export default {
   .header-right
     color white
     text-align center
-    width 1.24rem
+    min-width 1.24rem
+    padding-left 0.1rem
+    padding-right 0.1rem
     float right
     .icon-arrow
       font-size 0.24rem

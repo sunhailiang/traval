@@ -9,6 +9,7 @@ import 'styles/reset.css'
 import 'styles/border.css'
 import 'styles/iconfont.css'
 import 'swiper/dist/css/swiper.css'
+import store from './store'
 
 Vue.use(VueAwesomeSwiper) // 使用swiper插件
 
@@ -18,6 +19,7 @@ falseClick.attach(document.body)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   components: { App },
   template: '<App/>'
