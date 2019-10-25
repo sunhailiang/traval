@@ -22,7 +22,8 @@
       </div>
       <div class="area"
            v-for='(item,key) of cities'
-           :key='key'>
+           :key='key'
+           :ref="key">
         <div class="title border-topbottom">{{key}}</div>
         <div class="item-list"
              v-for="city in item"
@@ -39,7 +40,20 @@ export default {
   name: 'List',
   props: {
     cities: Object,
-    hotCities: Array
+    hotCities: Array,
+    alpha: String
+  },
+  watch: {
+    alpha () {
+      if (this.alpha) {
+        console.log(this.alpha)
+
+        // 取出我们要得dom
+        var el = this.$refs[this.alpha][0]
+        // 跳转到我们想要得位置
+        this.scroll.scrollToElement(el)
+      }
+    }
   },
   mounted () {
     this.scroll = new BScroll(this.$refs.wrapper)

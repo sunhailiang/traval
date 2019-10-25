@@ -3,8 +3,11 @@
     <Header/>
     <Search/>
     <List :cities='cities'
-          :hotCities='hotCities' />
-    <Alphabet :cities='cities' />
+          :hotCities='hotCities'
+          :alpha='alpha'
+          @change='handleAlphaMoveChange' />
+    <Alphabet :cities='cities'
+              @change="handleAlphaChange" />
   </div>
 </template>
 <script>
@@ -18,7 +21,8 @@ export default {
   data () {
     return {
       cities: {},
-      hotCities: []
+      hotCities: [],
+      alpha: ''
     }
   },
   components: { Header, Search, List, Alphabet },
@@ -26,6 +30,14 @@ export default {
     this.getCityInfo()
   },
   methods: {
+    handleAlphaChange (alpha) {
+      // 监听点击字母
+      this.alpha = alpha
+    },
+    handleAlphaMoveChange (alpha) {
+      // 监听手指滑动
+      this.alpha = alpha
+    },
     getCityInfo () {
       axios.get('/api/city.json').then(
         this.getCity

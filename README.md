@@ -145,6 +145,119 @@
 - 第二步：import BScroll from 'better-scroll'
 - 第三步：mounted () { this.scroll = new BScroll(this.$refs.wrapper)}
 
+# 组件之间的通信(兄弟组件)
+- 解决问题的场景：
+   - 城市选择页面页面右侧字母快速导航组件，点击字母，页面快速定位到该字母得城市区域
+   - 但是字母组件和城市列表是两个组件，所以就涉及到 **兄弟组件传值**
+- 解决方式:先传父级，父级转发给兄弟组件
+- 所以：必然要在父级组件做一个监听
+
+> 子组件（传）
+```html
+        <div class="item"
+         v-for="(item,key) of cities"
+         :key="key"
+         @click='handleToAlpha'>{{key}}</div>
+```
+```js
+
+    // 子组件中使用$emit将数据扔给父级组件
+    handleToAlpha (e) {
+      this.$emit('change', e.target.innerText)
+    }
+
+```
+> 父级组件
+
+```html
+        <!-- 监听得子组件 -->
+        <Alphabet :cities='cities'
+         @change="handleAlphaChange" />
+        <!-- 需要传递的子组件 -->
+        <List :cities='cities'
+          :hotCities='hotCities'
+          :alpha='alpha' />
+```
+
+```js
+  data () {
+    return {
+      alpha: ''
+    }
+  },
+    // 父级组件
+      // 父级组件：监听子组件change事件
+
+    // 监听处理事件 
+    handleAlphaChange (alpha) {
+      this.alpha = alpha
+    }
+```
+> 传递给另一个子组件
+
+```html
+        <!-- 使用ref获取到dom信息 -->
+        <div class="area"
+           v-for='(item,key) of cities'
+           :key='key'
+           :ref="key">  
+```
+```js
+  props: {
+    alpha: String // 接收父级组件传来得参数
+  }
+  //  监听数据得变化
+   watch: {
+    alpha () {
+      if (this.alpha) {
+        // 取出我们要得dom
+        var el = this.$refs[this.alpha][0]
+        // 跳转到我们想要得位置
+        this.scroll.scrollToElement(el)
+      }
+    }
+  },
+```
+
+# 滑动字符，滚动城市区域
+- 实现原理是在滑动右侧字母时，计算距离页面顶部的高度从而计算当前的字符，实现页面整体跳转
+```html
+<!-- 注册touchstart，touchend，touchmove -->
+<div class="list">
+    <div class="item"
+         v-for="(item,key) of alphas"
+         :key="key"
+         :ref="item"
+         @click='handleToAlpha'
+         @touchstart='handleTouchStart' 
+         @touchmove='handleTouchMove'
+         @touchend='handleTouchEnd'>{{item}}</div>
+  </div>
+```
+
+```js
+  handleTouchStart (e) {
+      this.touchStatus = true
+    },
+    handleTouchEnd (e) {
+      this.touchStatus = false
+    },
+    handleTouchMove (e) {
+      // 只有在按下得时候移动有效
+      if (this.touchStatus) {
+        // 计算滑动得高度
+        // 通过判断滑动距离来确认当前滑动得字母实现页面滚动
+        var startY = this.$refs['A'][0].offsetTop // 获取距离上一个元素的距离
+        var touchY = e.touches[0].clientY - 74 // 获取距离屏幕顶部距离，减去上面所有的元素的距离
+        var index = Math.floor((touchY - startY) / 24.8)
+        if (index >= 0 && index <= this.alphas.length) {
+          this.$emit('change', this.alphas[index])
+        }
+      }
+    }
+```
+
+
 ```bash
 # install dependencies
 npm install
