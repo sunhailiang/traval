@@ -521,6 +521,97 @@ import { mapState, mapGetters } from 'vuex'
   },
 ```
 
+# 关于router-link标签tag属性得用法
+- 解决问题
+   - router-link标签默认情况是编译成a标签，那么a标签得样式有时得再次修改
+   - tag属性可以将router-link翻译成指定得标签，并不改变样式
+   - 注意看tag属性和to属性
+
+```html
+ <ul>
+      <router-link class="item border-bottom"
+                   :tag="li" 
+                   :to="'/detail?id='+item.id"
+                   :key="item.id"
+                   v-for="item of recommendList">
+        <div class="item-wraper-img">
+          <img class="item-img"
+               :src='item.imgUrl'
+               alt="">
+        </div>
+        <div class="item-wraper-info">
+          <p class="item-title">{{item.title}}</p>
+          <p class="item-desc">{{item.desc}}</p>
+          <button class="item-button">查看详情</button>
+        </div>
+      </router-link>
+    </ul>
+```
+
+# 关于动态路由
+- 需要带参数得路由
+>router>index.js
+```js
+    {
+      path: '/detail/:id', // id是可以传进来的参数
+      name: 'city',
+      component: City
+    }
+```
+
+## 动态路由参数
+- 通过this.$route.params.参数名动态获取
+- 如：this.$route.params.id
+
+# 配置简化全局组件的引用路径
+- 解决的问题
+   - 全局组件可能在项目各个角落都会被需要，我们简化以用的路径希望以简洁地址引入全局组件
+- 解决方法：
+   - 配置webpack
+   - build>webpack.base.conf.js
+   - 配置完成后，记得重启服务
+
+> build>webpack.base.conf.js
+
+```webpack
+resolve: {
+    extensions: ['.js', '.vue', '.json'],
+    alias: {
+      vue$: 'vue/dist/vue.esm.js',
+      '@': resolve('src'),
+      styles: resolve('src/assets/style'),
+      common: resolve('src/common')
+    }
+```
+
+# 关于props中default()的用法
+
+- default() 用于没有任何值时候的默认值 
+
+```js
+ props: {
+    imgs: {
+      type: Array,
+      default () { 
+        return [
+          // 默认图片
+        ]
+      }
+    },
+```
+
+# 关于详情页banner点击进入画廊的问题
+- 问题：首次点击进入画廊，发现滚动有问题
+- 原因：因为开始的隐藏到展示出来，宽度会存在计算问题
+- 解决：在分页的配置项添加observeParents，observer，根据父级重新计算宽度
+```js
+ swiperOption: {
+        observeParents: true,
+        observer: true
+      }
+```
+
+
 ```bash
 # install dependencies
 npm install
