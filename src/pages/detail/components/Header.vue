@@ -34,8 +34,6 @@ export default {
       if (top > 60) {
         // 根据距离顶部高度，判断透明度，动态绑定给元素
         let opacity = top / 140
-        console.log(opacity)
-
         opacity = opacity > 1 ? 1 : opacity
         this.opacityStyle = {
           opacity
@@ -68,6 +66,7 @@ export default {
   background rgba(0, 0, 0, 0.8)
   color white
 .header-fixed
+  z-index 99
   position fixed
   top 0
   left 0

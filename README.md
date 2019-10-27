@@ -630,6 +630,57 @@ resolve: {
   }
 ```
 
+# vue递归组件
+- 所谓递归组件
+   - 组件自己调用自己
+```html
+ 
+<div class="item"
+         v-for="(item,index) in list"
+         :key='index'>
+      <div class="item-title border-bottom">
+        <span class="iconfont">
+          <span class="iconticket">&#xe60a;</span> {{item.title}}
+        </span>
+      </div>
+      <div class="item-children"
+           v-if="item.children">
+           <!-- 此处就是典型的递归组件的调用 -->
+        <List :list='item.children' />
+      </div>
+    </div>
+
+```
+
+# 切换页面时发现并非从顶部开始
+- 问题：切换页面发现，并不是从顶部开始...
+- 解决问题，在路由配置
+> router>index.js
+```js
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'Home',
+      component: Home
+    }, {
+      path: '/city',
+      name: 'city',
+      component: City
+    },
+    {
+      path: '/detail/:id',
+      name: 'detail',
+      component: Detail
+    }
+  ],
+  scrollBehavior (to, from, savedPosition) { // 重点在这，确保每次切换路由都是从该页面顶部开始浏览
+    return { x: 0, y: 0 }
+  }
+})
+```
+
+
 
 
 ```bash

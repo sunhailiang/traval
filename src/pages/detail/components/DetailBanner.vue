@@ -3,16 +3,16 @@
     <div class="banner"
          @click="handleShowGallary">
       <img class="banner-img"
-           src="https://img1.qunarzz.com/vs_ceph_vs_tts/9e1f64a4-27e6-4cc1-bdf0-22a6832b82eb.jpg_r_640x420x90_e83088a8.jpg"
+           :src="bannerImg"
            alt="">
       <div class="banner-info">
-        <div class="banner-title">巴厘岛</div>
+        <div class="banner-title">{{sightName}}</div>
         <div class="banner-number">
-          <span class="iconfont banner-icon">&#xe609;</span>39
+          <span class="iconfont banner-icon">&#xe609;</span>{{gallaryImgs.length}}
         </div>
       </div>
     </div>
-    <Gallary :imgs='imgs'
+    <Gallary :imgs='gallaryImgs'
              v-show="showGallary"
              @close='handleCloseGallary' />
   </div>
@@ -22,6 +22,21 @@ import Gallary from 'common/components/gallary/Gallary'
 export default {
   name: 'DetailBanner',
   components: { Gallary },
+  props: {
+    bannerImg: {
+      type: String,
+      default () {
+        return ''
+      }
+    },
+    sightName: String,
+    gallaryImgs: {
+      type: Array,
+      default () {
+        return []
+      }
+    }
+  },
   methods: {
     handleShowGallary () {
       this.showGallary = true
