@@ -12,16 +12,19 @@
         </div>
       </div>
     </div>
-    <Gallary :imgs='gallaryImgs'
-             v-show="showGallary"
-             @close='handleCloseGallary' />
+    <FadeAnimate>
+      <Gallary :imgs='gallaryImgs'
+               v-show="showGallary"
+               @close='handleCloseGallary' />
+    </FadeAnimate>
   </div>
 </template>
 <script>
 import Gallary from 'common/components/gallary/Gallary'
+import FadeAnimate from 'common/components/fade/FadeAnimate'
 export default {
   name: 'DetailBanner',
-  components: { Gallary },
+  components: { Gallary, FadeAnimate },
   props: {
     bannerImg: {
       type: String,
