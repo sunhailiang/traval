@@ -611,6 +611,26 @@ resolve: {
       }
 ```
 
+# vue中对全局全局事件的解绑
+- 问题：如果在sap项目中，我们在vue中使用了如下代码
+- 给window注册全局事件，在任何地方都会被触发
+
+```js
+    // 给window绑定了全局监听事件，那么这个事件的作用域事全局的的，在任何地方操作都会被触发
+  activated () {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+```
+
+- 解决方案
+   - 在与之对应的生命周期函数中解绑事件
+```js
+   deactivated () {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+```
+
+
 
 ```bash
 # install dependencies
