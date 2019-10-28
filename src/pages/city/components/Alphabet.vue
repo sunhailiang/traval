@@ -5,7 +5,7 @@
          :key="key"
          :ref="item"
          @click='handleToAlpha'
-         @touchstart='handleTouchStart'
+         @touchstart.prevent='handleTouchStart'
          @touchmove='handleTouchMove'
          @touchend='handleTouchEnd'>{{item}}</div>
   </div>
@@ -48,7 +48,7 @@ export default {
         }
         this.timer = setTimeout(() => {
           var touchY = e.touches[0].clientY - 74 // 获取距离屏幕顶部距离，减去上面所有的元素的距离
-          var index = Math.floor((touchY - this.startY) / 24.8)
+          var index = Math.floor((touchY - this.startY) / 20)
 
           if (index >= 0 && index <= this.alphas.length) {
             this.$emit('change', this.alphas[index])
@@ -85,6 +85,6 @@ export default {
   width 0.4rem
   .item
     text-align center
-    line-height 0.5rem
+    line-height 0.4rem
     color $commonBgc
 </style>

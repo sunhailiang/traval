@@ -10,6 +10,7 @@ import 'styles/border.css'
 import 'styles/iconfont.css'
 import 'swiper/dist/css/swiper.css'
 import store from './store'
+import 'babel-polyfill'
 
 Vue.use(VueAwesomeSwiper) // 使用swiper插件
 

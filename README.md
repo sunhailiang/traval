@@ -257,6 +257,22 @@
     }
 ```
 
+# vue阻止默认事件prevent
+- 比如：Alphabet这个组件的出没拖动字符，在真机上就会出现屏幕头部被拖动的情况
+- 解决
+
+```html
+    <div class="item"
+         v-for="(item,key) of alphas"
+         :key="key"
+         :ref="item"
+         @click='handleToAlpha'
+         @touchstart.prevent='handleTouchStart' 
+         @touchmove='handleTouchMove'
+         @touchend='handleTouchEnd'>{{item}}</div>
+```
+
+
 # 关于城市搜索的功能
 - 数据双向绑定输入的关键词
 - 监听关键词，匹配cities中的数据
@@ -702,7 +718,86 @@ export default new Router({
 </style>
 ```
 
-# 项目部署
+# 项目联调
+- 说明：所谓的联调，就是配合后端将开发过程中的测试API换成真实的接口，打通真实的数据接口
+- 这时我们只需要做一件事-修改代理路径
+> config>index.js
+
+```js
+ proxyTable: {
+      '/api': {
+        target: 'http://localhost:8081', // 注意将这里的地址改成真实的地址就行了...
+      }
+    },
+
+```
+
+# 真机测试
+- 我们想通过手机访问我们的项目，但是我们前端的项目是通过webpack内置的webpack-dev-server跑起来的，因为webpack-dev-server默认情况下不支持ip地址访问，所以外部无法访问
+- 那么我们怎么访问呢？
+- 如果你的计算机是windows系统，那么打开cmd，输入命令 ipconfig 
+- 找到ipv4对应的ip地址
+- 打开package.json文件，找到dev命令,在webpack-dev-server后面加上--host 0.0.0.0
+- 保存，重启服务,此时你就可以通过ip访问
+- 此时打开的你的手机，通过ip就可以访问你的项目了
+- 注意必须你的手机跟你的计算机在一个网段上才行哦
+```js
+  "scripts": {
+    // "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --host 0.0.0.0 --inline --progress --config build/webpack.dev.conf.js",
+    "start": "npm run dev",
+    "lint": "eslint --ext .js,.vue src",
+    "build": "node build/build.js"
+  },
+```
+
+
+# vue阻止默认事件prevent
+- 比如：Alphabet这个组件的出没拖动字符，在真机上就会出现屏幕头部被拖动的情况
+- 解决
+
+```html
+    <div class="item"
+         v-for="(item,key) of alphas"
+         :key="key"
+         :ref="item"
+         @click='handleToAlpha'
+         @touchstart.prevent='handleTouchStart' 
+         @touchmove='handleTouchMove'
+         @touchend='handleTouchEnd'>{{item}}</div>
+```
+
+# 低版本手机系统出现白屏
+- 通常有两种情况造成：
+- 情况一：很可能低版本手机系统，尤其安卓，不支持promise
+   - 解决： npm i babel-polyfill --save  安装一个babel-polyfill来决绝不支持promise问题
+      - 安装完之后在main.js文件中import一下即可
+- 情况二：因为webpack-dev-server造成的
+   - 解决打包发布项目，在服务器环境测试一般就没什么问题
+
+# 项目打包上线
+- 方式一：直接npm run build，然后将生成的dist目录下的文件放到服务器指定位置，即可访问
+- 方式二：正常情况如：192.168.1.11/ 这样就可以访问我们页面，但是你希望192.168.1.11/project/加一个project的访问层级
+
+> condig>index.js
+
+- 将assetsPublicPath的值加上你想要的层级
+
+```js
+build: {
+    // Template for index.html
+    index: path.resolve(__dirname, '../dist/index.html'),
+
+    // Paths
+    assetsRoot: path.resolve(__dirname, '../dist'),
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/project',
+}
+
+```
+
+
+
 
 
 
